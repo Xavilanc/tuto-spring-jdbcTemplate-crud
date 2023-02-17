@@ -13,7 +13,7 @@ public class ProductDto {
     public ProductDto() {
     }
 
-    private Long id;
+    private int id;
 
     private String name;
 
