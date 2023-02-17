@@ -13,8 +13,10 @@ import tutojava.com.tuto.product.dto.ProductDto;
 @Repository
 public class ProductRepository {
     
+    //JdbcTemplate
     private final JdbcTemplate jdbcTemplate;
 
+    //Injection by contructor
     @Autowired
     public ProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -25,12 +27,6 @@ public class ProductRepository {
         RowMapper<ProductDto> rowMapper = new BeanPropertyRowMapper<>(ProductDto.class);
         return jdbcTemplate.query(sql, rowMapper);
     }
-
-    // public List<ProductDto> findAll() {
-    //     String sql = "SELECT * FROM product";
-    //     List<ProductDto> products = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ProductDto.class));
-    //     return products;
-    // }
 
     public ProductDto findById(int id) {
         String sql = "SELECT * FROM product WHERE id = ?";
@@ -62,43 +58,5 @@ public class ProductRepository {
         String sql = "DELETE FROM product WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
-
-//     public int count() {
-//         return jdbcTemplate
-//             .queryForObject("select count(*) from product", Integer.class);
-//     }
-
-//     public ProductDto save(ProductDto product) {
-//         String sql = "INSERT INTO product(name) VALUES (?)";
-//         jdbcTemplate.update(sql, product.getName());
-//         return product;
-//     }
-
-//     public int update(ProductDto product) {
-//         return jdbcTemplate
-//             .update("update product set name = ? where id = ?",
-//             product.getName(), product.getId());
-//     }
-
-//     public int deleteById(Long id) {
-//         return jdbcTemplate.update(
-//                 "delete product where id = ?",
-//                 id);
-//     }
-
-
-//     public List<ProductDto> findAll() {
-//     String sql = "SELECT * FROM product";
-//     List<ProductDto> products = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ProductDto.class));
-//     return products;
-// }
-
-
-//     public String getNameById(Long id) {
-//         return jdbcTemplate.queryForObject(
-//                 "select name from product where id = ?",
-//                 String.class, id
-//         );
-//     }
 
 }

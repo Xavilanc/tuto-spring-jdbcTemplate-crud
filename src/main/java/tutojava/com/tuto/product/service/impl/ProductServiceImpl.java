@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository  = productRepository;
     }
 
-    //Inherit methods from ProductService
+    //Inherit methods from ProductService.java
     @Override
     public List<ProductDto> findAll() {
         return productRepository.findAll();
