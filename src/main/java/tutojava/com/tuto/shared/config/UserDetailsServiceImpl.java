@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import tutojava.com.tuto.product.model.User;
@@ -20,18 +21,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String sql = "SELECT * FROM users WHERE username = ?";
         RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
-        List<User> users = jdbcTemplate.query(sql, rowMapper);
+        List<User> users = jdbcTemplate.query(sql, rowMapper, username);
         if (users.isEmpty()) {
             throw new UsernameNotFoundException("No user found with username: " + username);
         }
         User user = users.get(0);
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
-                user.getPassword(),
+                encoder.encode(user.getPassword()),
                 true, true, true, true,
                 AuthorityUtils.createAuthorityList("USER")
         );
