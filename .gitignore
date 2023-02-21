@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### add this file ###
-application.properties
+
 
 ### STS ###
 .apt_generated
