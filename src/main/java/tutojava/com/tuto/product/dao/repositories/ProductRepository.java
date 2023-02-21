@@ -3,6 +3,7 @@ package tutojava.com.tuto.product.dao.repositories;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,7 +19,7 @@ public class ProductRepository {
 
     //Injection by contructor
     @Autowired
-    public ProductRepository(JdbcTemplate jdbcTemplate) {
+    public ProductRepository(@Qualifier("jdbc-template-1") JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

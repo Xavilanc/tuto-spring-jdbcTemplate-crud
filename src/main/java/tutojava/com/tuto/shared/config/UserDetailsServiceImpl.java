@@ -1,7 +1,5 @@
 package tutojava.com.tuto.shared.config;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,11 +26,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String sql = "SELECT * FROM users WHERE username = ?";
         RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
-        List<User> users = jdbcTemplate.query(sql, rowMapper, username);
-        if (users.isEmpty()) {
+        User user = jdbcTemplate.queryForObject(sql, rowMapper, username);
+        if (user == null) {
             throw new UsernameNotFoundException("No user found with username: " + username);
         }
-        User user = users.get(0);
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 encoder.encode(user.getPassword()),

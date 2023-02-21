@@ -2,11 +2,10 @@ package tutojava.com.tuto.shared.database;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -14,21 +13,15 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @PropertySource("classpath:application.properties")
 public class DataSourceConfig extends DriverManagerDataSource {
 
-    @Autowired
-    private Environment env;
-
+    // Recuperer toutes les propriétés qui commencent par "spring.datasource"
     @Bean
+    @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
-        dataSource.setUrl(env.getProperty("spring.datasource.url"));
-        dataSource.setUsername(env.getProperty("spring.datasource.username"));
-        dataSource.setPassword(env.getProperty("spring.datasource.password"));
-        return dataSource;
+        return new DriverManagerDataSource();
     }
 
-    @Bean
+    @Bean("jdbc-template-1") // For @Qualifier (utilisation de plusieurs DB)
     public JdbcTemplate jdbcTemplate() {
     return new JdbcTemplate(dataSource());
-}
+    }
 } 
