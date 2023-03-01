@@ -1,0 +1,3 @@
+spring.datasource.url=YOUR_DB_URL
+spring.datasource.username=YOUR_DB_USERNAME
+spring.datasource.password=YOUR_DB_PASSWORD

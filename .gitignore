@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 ### add this file ###
-SecretManager.java
+database.config.properties
 
 ### STS ###
 .apt_generated
